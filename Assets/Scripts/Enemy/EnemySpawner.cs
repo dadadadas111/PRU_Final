@@ -22,6 +22,10 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
+        if (!PlayerController.instance.gameObject.activeSelf)
+        {
+            return;
+        }
         if (waveNumber < waves.Count)
         {
             Wave wave = waves[waveNumber];

@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour
     private float speed = 2f;
     public Vector3 playerMoveDirection;
 
+    public float playerMaxHealth = 100;
+    public float playerCurrentHealth;
+
     void Awake()
     {
         if (instance == null)
@@ -25,6 +28,12 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(this);
         }
+    }
+
+    void Start()
+    {
+        playerCurrentHealth = playerMaxHealth;
+        UIController.instance.UpdateHealthSlider();
     }
 
     // Update is called once per frame
@@ -52,5 +61,20 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         rb.velocity = new Vector2(playerMoveDirection.x * speed, playerMoveDirection.y * speed);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        playerCurrentHealth -= damage;
+        UIController.instance.UpdateHealthSlider();
+        if (playerCurrentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        gameObject.SetActive(false);
     }
 }

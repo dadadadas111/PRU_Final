@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (PlayerController.instance != null)
+        if (PlayerController.instance != null && PlayerController.instance.gameObject.activeSelf)
         {
             var playerPosition = PlayerController.instance.transform.position;
 
@@ -37,12 +37,17 @@ public class Enemy : MonoBehaviour
             rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
 
         }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
 
     void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            PlayerController.instance.TakeDamage(1);
             Destroy(gameObject);
             Instantiate(destroyEffect, transform.position, transform.rotation);
         }
