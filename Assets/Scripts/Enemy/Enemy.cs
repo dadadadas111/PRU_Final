@@ -14,6 +14,14 @@ public class Enemy : MonoBehaviour
     private GameObject destroyEffect;
 
     private Vector3 direction;
+    private EnemyPool enemyPool;
+    private int enemyIndex;
+
+    public void Initialize(EnemyPool pool, int index)
+    {
+        enemyPool = pool;
+        enemyIndex = index;
+    }
 
     void FixedUpdate()
     {
@@ -22,20 +30,11 @@ public class Enemy : MonoBehaviour
             var playerPosition = PlayerController.instance.transform.position;
 
             // facing the player
-            if (playerPosition.x > transform.position.x)
-            {
-                sr.flipX = true;
-            }
-            else
-            {
-                sr.flipX = false;
-            }
+            sr.flipX = playerPosition.x > transform.position.x;
 
             // moving towards the player
             direction = (playerPosition - transform.position).normalized;
-
             rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
-
         }
         else
         {
@@ -48,8 +47,14 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerController.instance.TakeDamage(1);
-            Destroy(gameObject);
             Instantiate(destroyEffect, transform.position, transform.rotation);
+            ReturnToPool();
         }
+    }
+
+    void ReturnToPool()
+    {
+        rb.velocity = Vector2.zero;
+        enemyPool.AddToPool(enemyIndex, gameObject);
     }
 }

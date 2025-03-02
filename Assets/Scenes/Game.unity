@@ -227,29 +227,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - enemyPrefab: {fileID: 6572046167294558500, guid: b9d6fcf12f102ff40a41251626cd9879, type: 3}
+  - enemyIndex: 0
     spawnTimer: 0
-    spawnInterval: 1
+    spawnInterval: 0.1
     enemiesPerWave: 5
+    nextWaveMultiplier: 2
+    maxEnemiesPerWave: 100
     spawnedEnemies: 0
-  - enemyPrefab: {fileID: 8185236693338647028, guid: 817a2991d97156b4ab9654c3a454d5cf, type: 3}
+  - enemyIndex: 1
     spawnTimer: 0
-    spawnInterval: 1
+    spawnInterval: 0.1
     enemiesPerWave: 5
+    nextWaveMultiplier: 2
+    maxEnemiesPerWave: 100
     spawnedEnemies: 0
-  - enemyPrefab: {fileID: 1295771707575374339, guid: 05f119eca457dc9409e602c70446408f, type: 3}
+  - enemyIndex: 2
     spawnTimer: 0
-    spawnInterval: 1
+    spawnInterval: 0.1
     enemiesPerWave: 5
+    nextWaveMultiplier: 2
+    maxEnemiesPerWave: 100
     spawnedEnemies: 0
-  - enemyPrefab: {fileID: 3785899775815382703, guid: da39c6fe513509a428fbb7d6b976d5f7, type: 3}
+  - enemyIndex: 3
     spawnTimer: 0
-    spawnInterval: 1
+    spawnInterval: 0.1
     enemiesPerWave: 1
+    nextWaveMultiplier: 1
+    maxEnemiesPerWave: 50
     spawnedEnemies: 0
   waveNumber: 0
   minPos: {fileID: 402364415}
   maxPos: {fileID: 1793810665}
+  enemyPool: {fileID: 1989823610}
 --- !u!4 &109508185
 Transform:
   m_ObjectHideFlags: 0
@@ -2675,7 +2684,7 @@ MonoBehaviour:
   anim: {fileID: 198818035}
   speed: 5
   playerMoveDirection: {x: 0, y: 0, z: 0}
-  playerMaxHealth: 10
+  playerMaxHealth: 10000
   playerCurrentHealth: 0
 --- !u!70 &198818039
 CapsuleCollider2D:
@@ -18979,6 +18988,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1989823609}
   - {fileID: 1881375018}
   - {fileID: 519420032}
   - {fileID: 619394802}
@@ -24338,6 +24348,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899155399}
   m_CullTransparentMesh: 1
+--- !u!1 &1989823608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1989823609}
+  - component: {fileID: 1989823610}
+  m_Layer: 0
+  m_Name: EnemyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1989823609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989823608}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1408330106}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1989823610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989823608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f09436440546b64786d39a6f3ada274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefabs:
+  - {fileID: 6572046167294558500, guid: b9d6fcf12f102ff40a41251626cd9879, type: 3}
+  - {fileID: 8185236693338647028, guid: 817a2991d97156b4ab9654c3a454d5cf, type: 3}
+  - {fileID: 1295771707575374339, guid: 05f119eca457dc9409e602c70446408f, type: 3}
+  - {fileID: 3785899775815382703, guid: da39c6fe513509a428fbb7d6b976d5f7, type: 3}
+  initialPoolSize: 5
 --- !u!1 &2070089743
 GameObject:
   m_ObjectHideFlags: 0
