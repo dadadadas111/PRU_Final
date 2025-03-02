@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField]
     private float speed = 2f;
+    [SerializeField]
+    private GameObject destroyEffect;
 
     private Vector3 direction;
 
@@ -34,6 +36,15 @@ public class Enemy : MonoBehaviour
 
             rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
 
+        }
+    }
+
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Destroy(gameObject);
+            Instantiate(destroyEffect, transform.position, transform.rotation);
         }
     }
 }
