@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     private Slider healthSlider;
     [SerializeField]
     private TMP_Text healthText;
+    public GameObject gameOverPanel;
 
     void Awake()
     {
@@ -18,7 +19,7 @@ public class UIController : MonoBehaviour
         {
             instance = this;
         }
-        else
+        else if (instance != this)
         {
             Destroy(this);
         }

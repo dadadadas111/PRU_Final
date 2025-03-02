@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
         {
             instance = this;
         }
-        else
+        else if (instance != this)
         {
             Destroy(this);
         }
@@ -76,5 +76,6 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         gameObject.SetActive(false);
+        GameManager.instance.GameOver();
     }
 }
