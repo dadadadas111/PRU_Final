@@ -187,6 +187,7 @@ MonoBehaviour:
   sr: {fileID: 4509536639231038069}
   rb: {fileID: 1408952855485017145}
   speed: 2
+  damage: 3
   destroyEffect: {fileID: 5106454672904984378, guid: fae3cfe9085a30744b1b0799ebe54ff9, type: 3}
 --- !u!1 &2570642752784495774
 GameObject:

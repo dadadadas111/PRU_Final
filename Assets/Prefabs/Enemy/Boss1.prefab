@@ -236,6 +236,7 @@ MonoBehaviour:
   sr: {fileID: 7057894137412468301}
   rb: {fileID: 8923722102343077529}
   speed: 2
+  damage: 5
   destroyEffect: {fileID: 5106454672904984378, guid: fae3cfe9085a30744b1b0799ebe54ff9, type: 3}
 --- !u!58 &7269163850794240705
 CircleCollider2D:

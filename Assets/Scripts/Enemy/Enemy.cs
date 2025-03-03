@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float speed = 2f;
     [SerializeField]
+    private float damage = 1f;
+    [SerializeField]
     private GameObject destroyEffect;
 
     private Vector3 direction;
@@ -46,7 +48,7 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController.instance.TakeDamage(1);
+            PlayerController.instance.TakeDamage(damage);
             Instantiate(destroyEffect, transform.position, transform.rotation);
             ReturnToPool();
         }

@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public float gameTime;
+    private bool isGameOver = false;
 
     void Awake()
     {
@@ -19,8 +21,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        isGameOver = false;
+    }
+
     void Update()
     {
+        if (isGameOver)
+        {
+            return;
+        }
+        gameTime += Time.deltaTime;
+        UIController.instance.UpdateTimer(gameTime);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Pause();
@@ -29,6 +42,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        isGameOver = true;
         StartCoroutine(ShowGameOverPanel());
     }
 
@@ -37,7 +51,8 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
-    public void Pause(){
+    public void Pause()
+    {
 
         // if is game over, do not pause
         if (UIController.instance.gameOverPanel.activeSelf)
