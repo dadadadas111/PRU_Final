@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class Enemy : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float damage = 1f;
     [SerializeField]
+    private float health = 5f;
+    public float currentHealth;
+
+    [SerializeField]
     private GameObject destroyEffect;
 
     private Vector3 direction;
@@ -23,6 +28,11 @@ public class Enemy : MonoBehaviour
     {
         enemyPool = pool;
         enemyIndex = index;
+    }
+
+    void OnEnable()
+    {
+        currentHealth = health;
     }
 
     void FixedUpdate()
@@ -57,6 +67,23 @@ public class Enemy : MonoBehaviour
     void ReturnToPool()
     {
         rb.velocity = Vector2.zero;
+        // reset health
+        currentHealth = health;
         enemyPool.AddToPool(enemyIndex, gameObject);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Instantiate(destroyEffect, transform.position, transform.rotation, enemyPool.transform);
+        ReturnToPool();
     }
 }
