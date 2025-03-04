@@ -8,11 +8,13 @@ public class AreaWeaponPrefab : MonoBehaviour
     public AreaWeapon areaWeapon;
     private Vector3 targetSize;
     private float timer;
+    private float counter;
+    public List<Enemy> enemiesInRange = new List<Enemy>();
     void Start()
     {
         areaWeapon = FindObjectOfType<AreaWeapon>();
         targetSize = Vector3.one * areaWeapon.range;
-        transform.localScale = targetSize;
+        transform.localScale = Vector3.zero;
         timer = areaWeapon.duration;
     }
 
@@ -30,18 +32,32 @@ public class AreaWeaponPrefab : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        // prediodic damage
+        counter -= Time.deltaTime;
+        if (counter <= 0)
+        {
+            counter = areaWeapon.damagePeriod;
+            for (int i = 0; i < enemiesInRange.Count; i++)
+            {
+                enemiesInRange[i].TakeDamage(areaWeapon.damage);
+            }
+        }
+
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("Enemy hit");
-            Enemy enemy = other.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                enemy.TakeDamage(areaWeapon.damage);
-            }
+            enemiesInRange.Add(other.GetComponent<Enemy>());
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            enemiesInRange.Remove(collision.GetComponent<Enemy>());
         }
     }
 }

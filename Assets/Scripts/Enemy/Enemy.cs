@@ -35,6 +35,14 @@ public class Enemy : MonoBehaviour
         currentHealth = health;
     }
 
+    void Update()
+    {
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
     void FixedUpdate()
     {
         if (PlayerController.instance != null && PlayerController.instance.gameObject.activeSelf)
@@ -59,8 +67,7 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerController.instance.TakeDamage(damage);
-            Instantiate(destroyEffect, transform.position, transform.rotation);
-            ReturnToPool();
+            currentHealth = 0;
         }
     }
 
@@ -74,8 +81,9 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        health -= damage;
-        if (health <= 0)
+        currentHealth -= damage;
+        DamageNumberController.instance.CreateNumber(transform.position, (int)damage);
+        if (currentHealth <= 0)
         {
             Die();
         }

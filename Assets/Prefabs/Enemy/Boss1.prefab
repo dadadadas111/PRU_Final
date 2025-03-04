@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1906259177
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 8fd40f4b5c0e1e645bb3c39089c394e7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -160,7 +160,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1906259177
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1705257776, guid: 717e55554dad48b44b7107da14c2a9b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -237,6 +237,8 @@ MonoBehaviour:
   rb: {fileID: 8923722102343077529}
   speed: 2
   damage: 5
+  health: 20
+  currentHealth: 0
   destroyEffect: {fileID: 5106454672904984378, guid: fae3cfe9085a30744b1b0799ebe54ff9, type: 3}
 --- !u!58 &7269163850794240705
 CircleCollider2D:
