@@ -15,12 +15,17 @@ public class Enemy : MonoBehaviour
     private float damage = 1f;
     [SerializeField]
     private float health = 5f;
+    [SerializeField]
+    private int exp = 1;
+    [SerializeField]
+    private float pushTime = 0.2f;
     public float currentHealth;
 
     [SerializeField]
     private GameObject destroyEffect;
 
     private Vector3 direction;
+    private float pushCounter;
     private EnemyPool enemyPool;
     private int enemyIndex;
 
@@ -52,6 +57,20 @@ public class Enemy : MonoBehaviour
             // facing the player
             sr.flipX = playerPosition.x > transform.position.x;
 
+            // push back
+            if (pushCounter > 0)
+            {
+                pushCounter -= Time.deltaTime;
+                if (speed > 0)
+                {
+                    speed = -speed;
+                }
+                if (pushCounter <= 0)
+                {
+                    speed = Mathf.Abs(speed);
+                }
+            }
+
             // moving towards the player
             direction = (playerPosition - transform.position).normalized;
             rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
@@ -82,6 +101,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        pushCounter = pushTime;
         DamageNumberController.instance.CreateNumber(transform.position, (int)damage);
         if (currentHealth <= 0)
         {
@@ -91,6 +111,7 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        PlayerController.instance.GetExperience(exp);
         Instantiate(destroyEffect, transform.position, transform.rotation, enemyPool.transform);
         ReturnToPool();
     }

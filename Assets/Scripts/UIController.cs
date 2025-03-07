@@ -11,6 +11,10 @@ public class UIController : MonoBehaviour
     private Slider healthSlider;
     [SerializeField]
     private TMP_Text healthText;
+    [SerializeField]
+    private Slider expSlider;
+    [SerializeField]
+    private TMP_Text expText;
     public GameObject gameOverPanel;
     public GameObject pausePanel;
     [SerializeField]
@@ -26,6 +30,13 @@ public class UIController : MonoBehaviour
         {
             Destroy(this);
         }
+    }
+
+    public void UpdateExpSlider()
+    {
+        expSlider.maxValue = PlayerController.instance.playerLevels[PlayerController.instance.currentLevel - 1];
+        expSlider.value = PlayerController.instance.experience;
+        expText.text = PlayerController.instance.experience + " / " + PlayerController.instance.playerLevels[PlayerController.instance.currentLevel - 1];
     }
 
     public void UpdateHealthSlider()

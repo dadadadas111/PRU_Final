@@ -21,6 +21,10 @@ public class PlayerController : MonoBehaviour
 
     public float playerMaxHealth = 100;
     public float playerCurrentHealth;
+    public int experience = 0;
+    public int currentLevel = 1;
+    public int maxLevel = 10;
+    public List<int> playerLevels; 
     private bool isImmune = false;
 
     void Awake()
@@ -37,8 +41,16 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        for (int i = playerLevels.Count; i < maxLevel; i++)
+        {
+            var levelExp = (Mathf.CeilToInt(playerLevels[playerLevels.Count-1] * 1.1f + 10));
+            // round to the nearest number divislbe by 5
+            levelExp = Mathf.CeilToInt(levelExp / 5) * 5;
+            playerLevels.Add(levelExp);
+        }
         playerCurrentHealth = playerMaxHealth;
         UIController.instance.UpdateHealthSlider();
+        UIController.instance.UpdateExpSlider();
     }
 
     // Update is called once per frame
@@ -90,16 +102,37 @@ public class PlayerController : MonoBehaviour
         isImmune = true;
         immuneTimer = immuneDuration;
         playerCurrentHealth -= damage;
-        UIController.instance.UpdateHealthSlider();
         if (playerCurrentHealth <= 0)
         {
+            playerCurrentHealth = 0;
             Die();
         }
+        UIController.instance.UpdateHealthSlider();
     }
 
     public void Die()
     {
         gameObject.SetActive(false);
         GameManager.instance.GameOver();
+    }
+
+    public void GetExperience(int exp)
+    {
+        experience += exp;
+        if (experience >= playerLevels[currentLevel - 1])
+        {
+            LevelUp();
+        }
+        UIController.instance.UpdateExpSlider(); 
+    }
+
+    public void LevelUp() 
+    {
+        if (currentLevel >= maxLevel)
+        {
+            return;
+        }
+        experience -= playerLevels[currentLevel - 1];
+        currentLevel++;
     }
 }

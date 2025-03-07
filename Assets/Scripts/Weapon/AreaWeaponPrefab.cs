@@ -33,10 +33,10 @@ public class AreaWeaponPrefab : MonoBehaviour
             }
         }
         // prediodic damage
-        counter -= Time.deltaTime;
+        counter -= Time.deltaTime * areaWeapon.speed;
         if (counter <= 0)
         {
-            counter = areaWeapon.damagePeriod;
+            counter = 1;
             for (int i = 0; i < enemiesInRange.Count; i++)
             {
                 enemiesInRange[i].TakeDamage(areaWeapon.damage);

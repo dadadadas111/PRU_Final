@@ -235,9 +235,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sr: {fileID: 7057894137412468301}
   rb: {fileID: 8923722102343077529}
-  speed: 2
+  speed: 1
   damage: 5
   health: 20
+  exp: 20
+  pushTime: 0.1
   currentHealth: 0
   destroyEffect: {fileID: 5106454672904984378, guid: fae3cfe9085a30744b1b0799ebe54ff9, type: 3}
 --- !u!58 &7269163850794240705
