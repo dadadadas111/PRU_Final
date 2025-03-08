@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public int maxLevel = 10;
     public List<int> playerLevels; 
     private bool isImmune = false;
+    public bool isUntouchable = false;
 
     public Weapon[] activeWeapons;
 
@@ -112,6 +113,16 @@ public class PlayerController : MonoBehaviour
         UIController.instance.UpdateHealthSlider();
     }
 
+    public void Heal(float healAmount)
+    {
+        playerCurrentHealth += healAmount;
+        if (playerCurrentHealth > playerMaxHealth)
+        {
+            playerCurrentHealth = playerMaxHealth;
+        }
+        UIController.instance.UpdateHealthSlider();
+    }
+
     public void Die()
     {
         gameObject.SetActive(false);
@@ -120,8 +131,13 @@ public class PlayerController : MonoBehaviour
 
     public void GetExperience(int exp)
     {
+        if (currentLevel >= maxLevel)
+        {
+            UIController.instance.UpdateExpSliderMax(); 
+            return;
+        }
         experience += exp;
-        if (experience >= playerLevels[currentLevel - 1] && playerCurrentHealth > 0)
+        if (experience >= playerLevels[currentLevel - 1] && playerCurrentHealth > 0 && currentLevel < maxLevel)
         {
             LevelUp();
         }
@@ -131,6 +147,10 @@ public class PlayerController : MonoBehaviour
     public void LevelUp() 
     {
         AudioManager.instance.PlaySound(AudioManager.instance.levelUp);
+        if (currentLevel >= maxLevel)
+        {
+            return;
+        }
         experience -= playerLevels[currentLevel - 1];
         currentLevel++;
         for (int i = 0; i < activeWeapons.Length; i++)
@@ -138,5 +158,18 @@ public class PlayerController : MonoBehaviour
             UIController.instance.upgradeButtons[i].ActivateButton(activeWeapons[i]);
         }
         UIController.instance.ShowLevelUpPanel();
+    }
+
+    public void ToggleWeapon()
+    {
+        for (int i = 0; i < activeWeapons.Length; i++)
+        {
+            activeWeapons[i].gameObject.SetActive(!activeWeapons[i].gameObject.activeSelf);
+        }
+    }
+
+    public void TogglePlayerCollision()
+    {
+        isUntouchable = !isUntouchable;   
     }
 }

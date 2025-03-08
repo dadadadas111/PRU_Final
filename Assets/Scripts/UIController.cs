@@ -48,6 +48,12 @@ public class UIController : MonoBehaviour
         healthText.text = PlayerController.instance.playerCurrentHealth + " / " + PlayerController.instance.playerMaxHealth;
     }
 
+    public void UpdateExpSliderMax()
+    {
+        expSlider.value = expSlider.maxValue;
+        expText.text = "MAX";
+    }
+
     public void UpdateTimer(float timer)
     {
         float min = Mathf.FloorToInt(timer / 60);

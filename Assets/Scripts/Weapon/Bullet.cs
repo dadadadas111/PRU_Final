@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -19,7 +17,7 @@ public class Bullet : MonoBehaviour
     {
         if (!target || !target.gameObject.activeInHierarchy)
         {
-            Destroy(gameObject); // Bullet disappears if the enemy is gone
+            BulletPool.Instance.ReturnBullet(this);
             return;
         }
 
@@ -35,12 +33,7 @@ public class Bullet : MonoBehaviour
         if (collision.CompareTag("Enemy") && collision.gameObject == target.gameObject)
         {
             target.TakeDamageNoPush(damage);
-            Destroy(gameObject);
+            BulletPool.Instance.ReturnBullet(this);
         }
-    }
-
-    private void OnBecameInvisible()
-    {
-        Destroy(gameObject);
     }
 }

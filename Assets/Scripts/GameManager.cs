@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        CheatKeys();
         if (isGameOver)
         {
             return;
@@ -41,6 +42,33 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Pause();
+        }
+    }
+
+    public void CheatKeys()
+    {
+        // num 1 to level up
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            PlayerController.instance.GetExperience(PlayerController.instance.playerLevels[PlayerController.instance.currentLevel - 1]);
+        }
+
+        // num 2 to heal
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            PlayerController.instance.Heal(100);
+        }
+
+        // num 3 to disable/enable weapon
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            PlayerController.instance.ToggleWeapon();
+        }
+
+        // num 4 to be untouchable
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            PlayerController.instance.TogglePlayerCollision();
         }
     }
 

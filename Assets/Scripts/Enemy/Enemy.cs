@@ -85,6 +85,10 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            if (collision.gameObject.GetComponent<PlayerController>().isUntouchable)
+            {
+                return;
+            }
             PlayerController.instance.TakeDamage(damage);
             currentHealth = 0;
         }

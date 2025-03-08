@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource areaWeaponDespawn;
     public AudioSource playerDeath;
     public AudioSource levelUp;
+    public AudioSource gunShoot;
 
     private void Awake()
     {

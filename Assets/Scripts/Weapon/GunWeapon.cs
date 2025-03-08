@@ -65,8 +65,11 @@ public class GunWeapon : Weapon
 
     void Shoot()
     {
-        var bullet = Instantiate(bulletPrefab, muzzlePoint.position, muzzlePoint.rotation);
-        bullet.GetComponent<Bullet>().Initialize(stats[weaponLevel - 1].damage, stats[weaponLevel - 1].speed, targetEnemy);
-        // AudioManager.instance.PlaySound(AudioManager.instance.gunShoot);
+        var bullet = BulletPool.Instance.GetBullet();
+        bullet.transform.position = muzzlePoint.position;
+        bullet.transform.rotation = muzzlePoint.rotation;
+        bullet.Initialize(stats[weaponLevel - 1].damage, stats[weaponLevel - 1].speed, targetEnemy);
+        AudioManager.instance.PlaySound(AudioManager.instance.gunShoot);
     }
+
 }
