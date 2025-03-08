@@ -110,6 +110,17 @@ public class Enemy : MonoBehaviour
         AudioManager.instance.PlayModifiedSound(AudioManager.instance.enemyHit);
     }
 
+    public void TakeDamageNoPush(float damage)
+    {
+        currentHealth -= damage;
+        DamageNumberController.instance.CreateNumber(transform.position, (int)damage);
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+        AudioManager.instance.PlayModifiedSound(AudioManager.instance.enemyHit);
+    }
+
     public void IncreateStats(int loopCount)
     {
         currentHealth += loopCount * 2;

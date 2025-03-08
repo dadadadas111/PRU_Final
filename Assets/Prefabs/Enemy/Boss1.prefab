@@ -237,8 +237,8 @@ MonoBehaviour:
   rb: {fileID: 8923722102343077529}
   speed: 1
   damage: 5
-  health: 20
-  exp: 20
+  health: 100
+  exp: 30
   pushTime: 0.1
   currentHealth: 0
   destroyEffect: {fileID: 5106454672904984378, guid: fae3cfe9085a30744b1b0799ebe54ff9, type: 3}

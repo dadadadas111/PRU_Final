@@ -22,6 +22,7 @@ public class UpgradeButton : MonoBehaviour
 
     public void UpgradeWeapon()
     {
+        if (assignedWeapon.weaponLevel >= assignedWeapon.maxLevel) return;
         AudioManager.instance.PlaySound(AudioManager.instance.selectUpgrade);
         assignedWeapon.UpgradeWeapon();
         UIController.instance.HideLevelUpPanel();
