@@ -190,7 +190,7 @@ MonoBehaviour:
   speed: 1.5
   damage: 1
   health: 5
-  exp: 4
+  exp: 5
   pushTime: 0.5
   currentHealth: 1
   destroyEffect: {fileID: 5106454672904984378, guid: fae3cfe9085a30744b1b0799ebe54ff9, type: 3}

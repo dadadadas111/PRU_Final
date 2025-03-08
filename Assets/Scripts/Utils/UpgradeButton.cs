@@ -14,7 +14,8 @@ public class UpgradeButton : MonoBehaviour
 
     public void ActivateButton(Weapon weapon)
     {
-        weaponName.text = weapon.name;
+        var currentLevel = weapon.weaponLevel;
+        weaponName.text = weapon.name + " + " + currentLevel;
         weaponDescription.text = weapon.stats[weapon.weaponLevel - 1].description;
         weaponImage.sprite = weapon.weaponImage;
         assignedWeapon = weapon;

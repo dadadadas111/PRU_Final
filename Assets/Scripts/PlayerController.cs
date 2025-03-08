@@ -131,10 +131,6 @@ public class PlayerController : MonoBehaviour
     public void LevelUp() 
     {
         AudioManager.instance.PlaySound(AudioManager.instance.levelUp);
-        if (currentLevel >= maxLevel)
-        {
-            return;
-        }
         experience -= playerLevels[currentLevel - 1];
         currentLevel++;
         for (int i = 0; i < activeWeapons.Length; i++)
