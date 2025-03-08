@@ -18,6 +18,7 @@ public class EnemySpawner : MonoBehaviour
 
     public List<Wave> waves;
     public int waveNumber = 0;
+    public int loopCount = 0;
     public Transform minPos;
     public Transform maxPos;
     public EnemyPool enemyPool; // Reference to EnemyPool
@@ -43,7 +44,7 @@ public class EnemySpawner : MonoBehaviour
                 else
                 {
                     wave.spawnedEnemies = 0;
-                    wave.spawnInterval *= 0.9f;
+                    wave.spawnInterval -= 0.2f;
                     // set min spawn interval
                     if (wave.spawnInterval < 0.3f)
                     {
@@ -61,6 +62,7 @@ public class EnemySpawner : MonoBehaviour
         else
         {
             waveNumber = 0;
+            loopCount++;
         }
     }
 
@@ -71,6 +73,12 @@ public class EnemySpawner : MonoBehaviour
         {
             enemy.transform.position = RandomPosition();
             enemy.transform.rotation = Quaternion.identity;
+            // increase enemy stats based on loop count
+            if (loopCount > 0)
+            {
+                var enemyScript = enemy.GetComponent<Enemy>();
+                enemyScript.IncreateStats(loopCount);
+            }
         }
     }
 

@@ -33,6 +33,10 @@ public class GameManager : MonoBehaviour
             return;
         }
         gameTime += Time.deltaTime;
+        if (UIController.instance == null)
+        {
+            return;
+        }
         UIController.instance.UpdateTimer(gameTime);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -64,11 +68,13 @@ public class GameManager : MonoBehaviour
         {
             UIController.instance.pausePanel.SetActive(false);
             Time.timeScale = 1;
+            AudioManager.instance.PlaySound(AudioManager.instance.unpause);
         }
         else
         {
             UIController.instance.pausePanel.SetActive(true);
             Time.timeScale = 0;
+            AudioManager.instance.PlaySound(AudioManager.instance.pause);
         }
     }
 
@@ -79,11 +85,13 @@ public class GameManager : MonoBehaviour
     public void GotoMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1;
     }
 
     IEnumerator ShowGameOverPanel()
     {
         yield return new WaitForSeconds(1.5f);
+        AudioManager.instance.PlaySound(AudioManager.instance.playerDeath);
         UIController.instance.gameOverPanel.SetActive(true);
     }
 

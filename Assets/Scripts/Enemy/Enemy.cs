@@ -107,10 +107,20 @@ public class Enemy : MonoBehaviour
         {
             Die();
         }
+        AudioManager.instance.PlayModifiedSound(AudioManager.instance.enemyHit);
+    }
+
+    public void IncreateStats(int loopCount)
+    {
+        currentHealth += loopCount * 2;
+        damage += loopCount;
+        exp += loopCount;
+        speed += loopCount * 0.1f;
     }
 
     void Die()
     {
+        AudioManager.instance.PlayModifiedSound(AudioManager.instance.enemyDeath);
         PlayerController.instance.GetExperience(exp);
         Instantiate(destroyEffect, transform.position, transform.rotation, enemyPool.transform);
         ReturnToPool();

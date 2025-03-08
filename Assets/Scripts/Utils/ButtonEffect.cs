@@ -22,6 +22,7 @@ public class ButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void OnPointerEnter(PointerEventData eventData)
     {
         buttonImage.sprite = hoverSprite;
+        AudioManager.instance.PlaySound(AudioManager.instance.hover);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -32,6 +33,7 @@ public class ButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void OnPointerDown(PointerEventData eventData)
     {
         buttonImage.sprite = clickSprite;
+        AudioManager.instance.PlaySound(AudioManager.instance.click);
     }
 
     public void OnPointerUp(PointerEventData eventData)

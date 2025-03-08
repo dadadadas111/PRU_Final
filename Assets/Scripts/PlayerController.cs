@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     public List<int> playerLevels; 
     private bool isImmune = false;
 
+    public Weapon[] activeWeapons;
+
     void Awake()
     {
         if (instance == null)
@@ -119,7 +121,7 @@ public class PlayerController : MonoBehaviour
     public void GetExperience(int exp)
     {
         experience += exp;
-        if (experience >= playerLevels[currentLevel - 1])
+        if (experience >= playerLevels[currentLevel - 1] && playerCurrentHealth > 0)
         {
             LevelUp();
         }
@@ -128,11 +130,17 @@ public class PlayerController : MonoBehaviour
 
     public void LevelUp() 
     {
+        AudioManager.instance.PlaySound(AudioManager.instance.levelUp);
         if (currentLevel >= maxLevel)
         {
             return;
         }
         experience -= playerLevels[currentLevel - 1];
         currentLevel++;
+        for (int i = 0; i < activeWeapons.Length; i++)
+        {
+            UIController.instance.upgradeButtons[i].ActivateButton(activeWeapons[i]);
+        }
+        UIController.instance.ShowLevelUpPanel();
     }
 }
