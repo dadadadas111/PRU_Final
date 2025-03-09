@@ -24,6 +24,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject destroyEffect;
 
+    [SerializeField] 
+    private GameObject targetIndicator;
+
     private Vector3 direction;
     private float pushCounter;
     private EnemyPool enemyPool;
@@ -96,6 +99,7 @@ public class Enemy : MonoBehaviour
 
     void ReturnToPool()
     {
+        SetTarget(false); 
         rb.velocity = Vector2.zero;
         // reset health
         currentHealth = health;
@@ -129,8 +133,7 @@ public class Enemy : MonoBehaviour
     {
         currentHealth += loopCount * 2;
         damage += loopCount;
-        exp += loopCount;
-        speed += loopCount * 0.1f;
+        speed += loopCount * 0.2f;
     }
 
     void Die()
@@ -139,5 +142,14 @@ public class Enemy : MonoBehaviour
         PlayerController.instance.GetExperience(exp);
         Instantiate(destroyEffect, transform.position, transform.rotation, enemyPool.transform);
         ReturnToPool();
+    }
+
+    // Method to toggle target indicator
+    public void SetTarget(bool isTargeted)
+    {
+        if (targetIndicator != null)
+        {
+            targetIndicator.SetActive(isTargeted);
+        }
     }
 }

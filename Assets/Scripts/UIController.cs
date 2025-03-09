@@ -19,6 +19,7 @@ public class UIController : MonoBehaviour
     public GameObject pausePanel;
     public GameObject levelUpPanel;
     public UpgradeButton[] upgradeButtons;
+    public HPUpgradeButton hpUpgradeButton;
     [SerializeField]
     private TMP_Text timerText;
 

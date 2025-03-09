@@ -70,6 +70,19 @@ public class GameManager : MonoBehaviour
         {
             PlayerController.instance.TogglePlayerCollision();
         }
+
+        // num 5 to fast forward / slow down time
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            if (Time.timeScale == 1)
+            {
+                Time.timeScale = 2;
+            }
+            else
+            {
+                Time.timeScale = 1;
+            }
+        }
     }
 
     public void GameOver()

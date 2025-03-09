@@ -39,7 +39,13 @@ public class GunWeapon : Weapon
             }
         }
 
+        if (targetEnemy != null && targetEnemy != closestEnemy) 
+            targetEnemy.SetTarget(false);
+
         targetEnemy = closestEnemy;
+
+        if (targetEnemy)
+            targetEnemy.SetTarget(true);
     }
 
     void RotateTowardsTarget()

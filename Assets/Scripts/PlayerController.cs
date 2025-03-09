@@ -123,6 +123,13 @@ public class PlayerController : MonoBehaviour
         UIController.instance.UpdateHealthSlider();
     }
 
+    public void IncreaseMaxHealth(float amount)
+    {
+        playerMaxHealth += amount;
+        playerCurrentHealth += amount;
+        UIController.instance.UpdateHealthSlider();
+    }
+
     public void Die()
     {
         gameObject.SetActive(false);
@@ -157,6 +164,7 @@ public class PlayerController : MonoBehaviour
         {
             UIController.instance.upgradeButtons[i].ActivateButton(activeWeapons[i]);
         }
+        UIController.instance.hpUpgradeButton.RandomizeDescription();
         UIController.instance.ShowLevelUpPanel();
     }
 

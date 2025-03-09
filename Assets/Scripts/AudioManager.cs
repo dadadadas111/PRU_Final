@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
+
+    [SerializeField] private AudioMixer audioMixer;
+
+    private bool isBGMMuted = false;
+    private bool isSFXMuted = false;
 
     // Menu sounds
     public AudioSource pause;
@@ -44,5 +50,17 @@ public class AudioManager : MonoBehaviour
     {
         audio.pitch = Random.Range(0.7f, 1.3f);
         PlaySound(audio);
+    }
+
+    public void ToggleBGM()
+    {
+        isBGMMuted = !isBGMMuted;
+        audioMixer.SetFloat("BGM", isBGMMuted ? -80f : -10f);
+    }
+
+    public void ToggleSFX()
+    {
+        isSFXMuted = !isSFXMuted;
+        audioMixer.SetFloat("SFX", isSFXMuted ? -80f : 0f);
     }
 }
