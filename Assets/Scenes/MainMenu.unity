@@ -211,16 +211,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6940fc0eaec39294caa69b8a87e64cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixer: {fileID: 0}
   pause: {fileID: 1087498459}
   unpause: {fileID: 578191330}
   hover: {fileID: 194652197}
   click: {fileID: 765493216}
+  enemyHit: {fileID: 0}
   enemyDeath: {fileID: 1144315444}
   selectUpgrade: {fileID: 765493216}
   areaWeaponSpawn: {fileID: 1754807206}
   areaWeaponDespawn: {fileID: 1680365202}
   playerDeath: {fileID: 0}
   levelUp: {fileID: 0}
+  gunShoot: {fileID: 0}
 --- !u!4 &140260400
 Transform:
   m_ObjectHideFlags: 0
@@ -2819,6 +2822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameTime: 0
+  isGameOver: 0
 --- !u!1 &1972452277
 GameObject:
   m_ObjectHideFlags: 0

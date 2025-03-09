@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public float gameTime;
-    private bool isGameOver = false;
+    public bool isGameOver = false;
 
     void Awake()
     {
@@ -88,6 +88,8 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
+        HighScoreManager.Instance.SaveScore(gameTime);
+        UIController.instance.UpdateResultText();
         StartCoroutine(ShowGameOverPanel());
     }
 
@@ -108,7 +110,11 @@ public class GameManager : MonoBehaviour
         if (UIController.instance.pausePanel.activeSelf)
         {
             UIController.instance.pausePanel.SetActive(false);
-            Time.timeScale = 1;
+            // if is leveling up, do not unpause
+            if (!UIController.instance.levelUpPanel.activeSelf)
+            {
+                Time.timeScale = 1;
+            }
             AudioManager.instance.PlaySound(AudioManager.instance.unpause);
         }
         else

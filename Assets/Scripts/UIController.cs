@@ -18,10 +18,15 @@ public class UIController : MonoBehaviour
     public GameObject gameOverPanel;
     public GameObject pausePanel;
     public GameObject levelUpPanel;
+    public GameObject highScorePanel;
     public UpgradeButton[] upgradeButtons;
     public HPUpgradeButton hpUpgradeButton;
     [SerializeField]
     private TMP_Text timerText;
+    [SerializeField]
+    private TMP_Text gameResultText;
+    [SerializeField] 
+    private List<TMP_Text> scoreTexts; 
 
     void Awake()
     {
@@ -62,6 +67,14 @@ public class UIController : MonoBehaviour
         timerText.text = min + ":" + sec.ToString("00");
     }
 
+    public void UpdateResultText()
+    {
+        string prefix = "You survived for ";
+        string suffix = " !";
+        // get the timer text to display the result
+        gameResultText.text = prefix + timerText.text + suffix;
+    }
+
     public void ShowLevelUpPanel()
     {
         levelUpPanel.SetActive(true);
@@ -72,5 +85,38 @@ public class UIController : MonoBehaviour
     {
         levelUpPanel.SetActive(false);
         Time.timeScale = 1;
+    }
+
+    public void ShowHighScorePanel()
+    {
+        highScorePanel.SetActive(true);
+        gameOverPanel.SetActive(false);
+        ReloadHighScore();
+    }
+
+    public void ReloadHighScore()
+    {
+        List<string> scores = HighScoreManager.Instance.GetFormatedHighScores();
+        for (int i = 0; i < scoreTexts.Count; i++)
+        {
+            string prefix = (i + 1) + ". ";
+            if (i < scores.Count)
+            {
+                scoreTexts[i].text = prefix + scores[i];
+            }
+            else
+            {
+                scoreTexts[i].text = prefix + "X:XX";
+            }
+        }
+    }
+
+    public void HideHighScorePanel()
+    {
+        highScorePanel.SetActive(false);
+        if (GameManager.instance.isGameOver)
+        {
+            gameOverPanel.SetActive(true);
+        }
     }
 }
