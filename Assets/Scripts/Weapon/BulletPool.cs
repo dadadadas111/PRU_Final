@@ -19,7 +19,7 @@ public class BulletPool : MonoBehaviour
     {
         for (int i = 0; i < poolSize; i++)
         {
-            Bullet bullet = Instantiate(bulletPrefab).GetComponent<Bullet>();
+            Bullet bullet = Instantiate(bulletPrefab, transform).GetComponent<Bullet>();
             bullet.gameObject.SetActive(false);
             bulletPool.Enqueue(bullet);
         }
@@ -35,7 +35,7 @@ public class BulletPool : MonoBehaviour
         }
         else
         {
-            Bullet bullet = Instantiate(bulletPrefab).GetComponent<Bullet>();
+            Bullet bullet = Instantiate(bulletPrefab, transform).GetComponent<Bullet>();
             return bullet;
         }
     }
