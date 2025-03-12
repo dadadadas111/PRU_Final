@@ -139,8 +139,12 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         AudioManager.instance.PlayModifiedSound(AudioManager.instance.enemyDeath);
-        PlayerController.instance.GetExperience(exp);
         Instantiate(destroyEffect, transform.position, transform.rotation, enemyPool.transform);
+        // if player not reach max level
+        if (PlayerController.instance.currentLevel < PlayerController.instance.maxLevel)
+        {
+            PickupItemPool.Instance.DropPickups(exp, transform);
+        }
         ReturnToPool();
     }
 

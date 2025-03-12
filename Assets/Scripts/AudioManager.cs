@@ -27,6 +27,9 @@ public class AudioManager : MonoBehaviour
     public AudioSource playerDeath;
     public AudioSource levelUp;
     public AudioSource gunShoot;
+    public AudioSource expGet;
+    public AudioSource healthGet;
+    public AudioSource speedBuffGet;
 
     private void Awake()
     {
