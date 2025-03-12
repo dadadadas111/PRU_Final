@@ -18,8 +18,10 @@ public class UIController : MonoBehaviour
     public GameObject gameOverPanel;
     public GameObject pausePanel;
     public GameObject levelUpPanel;
+    public GameObject startWeaponPanel;
     public GameObject highScorePanel;
     public UpgradeButton[] upgradeButtons;
+    public UpgradeButton[] startUpgradeButtons;
     public HPUpgradeButton hpUpgradeButton;
     [SerializeField]
     private TMP_Text timerText;
@@ -27,6 +29,8 @@ public class UIController : MonoBehaviour
     private TMP_Text gameResultText;
     [SerializeField] 
     private List<TMP_Text> scoreTexts; 
+    [SerializeField]
+    private TMP_Text levelText;
 
     void Awake()
     {
@@ -77,6 +81,7 @@ public class UIController : MonoBehaviour
 
     public void ShowLevelUpPanel()
     {
+        levelText.text = "Lv." + PlayerController.instance.currentLevel;
         levelUpPanel.SetActive(true);
         Time.timeScale = 0;
     }

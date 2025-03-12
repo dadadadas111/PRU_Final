@@ -54,6 +54,10 @@ public class PlayerController : MonoBehaviour
         playerCurrentHealth = playerMaxHealth;
         UIController.instance.UpdateHealthSlider();
         UIController.instance.UpdateExpSlider();
+        for (int i = 0; i < activeWeapons.Length; i++)
+        {
+            UIController.instance.startUpgradeButtons[i].ActivateButton(activeWeapons[i]);
+        }
     }
 
     // Update is called once per frame
