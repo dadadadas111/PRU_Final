@@ -38,6 +38,8 @@ public class UpgradeButton : MonoBehaviour
             // set active weapon
             assignedWeapon.weaponLevel = 1;
             assignedWeapon.gameObject.SetActive(true);
+            // start game
+            GameManager.instance.isGameStarted = true;
         }
         else 
         {

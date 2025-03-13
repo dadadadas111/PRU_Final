@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public float gameTime;
     public bool isGameOver = false;
+    public bool isGameStarted = false;
+    public bool isGameContinueFromSave = false;
 
     void Awake()
     {
@@ -28,11 +30,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        CheatKeys();
-        if (isGameOver)
+        if (isGameOver || !isGameStarted)
         {
             return;
         }
+        CheatKeys();
         gameTime += Time.deltaTime;
         if (UIController.instance == null)
         {
@@ -83,11 +85,22 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1;
             }
         }
+
+        // key i to save game, key o to load game
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            SaveGame();
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            LoadGame();
+        }
     }
 
     public void GameOver()
     {
         isGameOver = true;
+        PlayerPrefs.SetInt("canLoadData", 0);
         HighScoreManager.Instance.SaveScore(gameTime);
         UIController.instance.UpdateResultText();
         StartCoroutine(ShowGameOverPanel());
@@ -100,7 +113,6 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
-
         // if is game over, do not pause
         if (UIController.instance.gameOverPanel.activeSelf)
         {
@@ -123,6 +135,7 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0;
             AudioManager.instance.PlaySound(AudioManager.instance.pause);
         }
+        SaveGame();
     }
 
     public void QuitGame()
@@ -133,6 +146,31 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
         Time.timeScale = 1;
+    }
+
+    public void SaveGame()
+    {
+        SaveSystem.SaveGame(PlayerController.instance, GameManager.instance);
+        PlayerPrefs.SetInt("canLoadData", 1);
+    }
+
+    public void LoadGame()
+    {
+        SaveData data = SaveSystem.LoadGame();
+        if (data == null)
+        {
+            return;
+        }
+        // log the data first
+        data.PrintSaveData();
+        PlayerController.instance.LoadPlayerData(
+            data.playerMaxHealth,
+            data.playerCurrentHealth,
+            data.experience,
+            data.currentLevel
+        );
+        // this.instance.LoadGameManager(data);
+        isGameContinueFromSave = true;
     }
 
     IEnumerator ShowGameOverPanel()

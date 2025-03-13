@@ -8,8 +8,7 @@ public class MenuUIController : MonoBehaviour
 {
     public static MenuUIController instance;
 
-    [SerializeField] 
-    private List<TMP_Text> scoreTexts; 
+    public GameObject loadButton;
 
     void Awake()
     {
@@ -23,10 +22,23 @@ public class MenuUIController : MonoBehaviour
         }
     }
 
-    public void ShowHighScorePanel()
+    void Start()
     {
-        // load the scene for high score
-        SceneManager.LoadScene("HighScore");
+        if (PlayerPrefs.HasKey("canLoadData"))
+        {
+            if (PlayerPrefs.GetInt("canLoadData") == 1)
+            {
+                loadButton.SetActive(true);
+            }
+            else
+            {
+                loadButton.SetActive(false);
+            }
+        }
+        else 
+        {
+            loadButton.SetActive(false);
+        }
     }
     
 }

@@ -58,6 +58,11 @@ public class UIController : MonoBehaviour
         healthText.text = PlayerController.instance.playerCurrentHealth + " / " + PlayerController.instance.playerMaxHealth;
     }
 
+    public void UpdatePlayerLevel()
+    {
+        levelText.text = "Lv." + PlayerController.instance.currentLevel;
+    }
+
     public void UpdateExpSliderMax()
     {
         expSlider.value = expSlider.maxValue;

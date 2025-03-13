@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     public Weapon[] activeWeapons;
 
     private float buffSpeedTimer = 0;
+    private bool isDisableWeapon = false;
 
     void Awake()
     {
@@ -199,12 +200,27 @@ public class PlayerController : MonoBehaviour
         UIController.instance.ShowLevelUpPanel();
     }
 
+    // load data from save
+    public void LoadPlayerData(float maxHealth, float currentHealth, int exp, int level)
+    {
+        playerMaxHealth = maxHealth;
+        playerCurrentHealth = currentHealth;
+        experience = exp;
+        currentLevel = level;
+        UIController.instance.UpdateHealthSlider();
+        UIController.instance.UpdateExpSlider();
+        UIController.instance.UpdatePlayerLevel();
+    }
+
+
+    // these are cheat codes
     public void ToggleWeapon()
     {
         for (int i = 0; i < activeWeapons.Length; i++)
         {
-            activeWeapons[i].gameObject.SetActive(!activeWeapons[i].gameObject.activeSelf);
+            activeWeapons[i].gameObject.SetActive(isDisableWeapon);
         }
+        isDisableWeapon = !isDisableWeapon;
     }
 
     public void TogglePlayerCollision()
