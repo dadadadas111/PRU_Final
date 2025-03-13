@@ -144,6 +144,7 @@ public class Enemy : MonoBehaviour
         if (PlayerController.instance.currentLevel < PlayerController.instance.maxLevel)
         {
             PickupItemPool.Instance.DropPickups(exp, transform);
+            PickupItemPool.Instance.RandomDropItem(transform.position, 30);
         }
         ReturnToPool();
     }

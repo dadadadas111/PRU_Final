@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Animator anim;
     [SerializeField]
-    private float speed = 2f;
+    private float speed = 5f;
     [SerializeField]
     private float immuneDuration = 1f;
     [SerializeField]
@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     public bool isUntouchable = false;
 
     public Weapon[] activeWeapons;
+
+    private float buffSpeedTimer = 0;
 
     void Awake()
     {
@@ -97,6 +99,19 @@ public class PlayerController : MonoBehaviour
             isImmune = false;
         }
 
+        if (buffSpeedTimer > 0)
+        {
+            buffSpeedTimer -= Time.deltaTime;
+            if (buffSpeedTimer <= 0)
+            {
+                speed = 5f;
+            }
+        }
+        else
+        {
+            speed = 5f;
+        }
+
     }
 
     void FixedUpdate()
@@ -129,6 +144,14 @@ public class PlayerController : MonoBehaviour
             playerCurrentHealth = playerMaxHealth;
         }
         UIController.instance.UpdateHealthSlider();
+    }
+
+    public void BuffSpeed(float time, float amount)
+    {
+        speed += amount;
+        speed = Mathf.Clamp(speed, 5f, 10f);
+        // prevent stacking speed buff
+        buffSpeedTimer = time;
     }
 
     public void IncreaseMaxHealth(float amount)

@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class PickupItem : MonoBehaviour
 {
+    public int type = 0; 
+    // 0: Experience, 1: Health, 2: MoveSpeed...
+    // sprite list for different types of pickups
+    public Sprite[] pickupSprites;
+
     private Vector2 targetPosition;
     private float moveSpeed = 4f;
     private bool isMoving = false;
@@ -16,6 +21,12 @@ public class PickupItem : MonoBehaviour
         targetPosition = dropPosition + Random.insideUnitCircle * 1.5f;
         isMoving = true;
         isMagnetActive = false;
+    }
+
+    public void SetType(int type)
+    {
+        this.type = type;
+        GetComponent<SpriteRenderer>().sprite = pickupSprites[type];
     }
 
     private void Start()
@@ -46,6 +57,12 @@ public class PickupItem : MonoBehaviour
         // Activate magnet effect when within range
         if (Vector2.Distance(transform.position, player.position) < magnetRange && !isMoving)
         {
+            // if type is HP but player is full, don't activate magnet
+            if (type == 1 && PlayerController.instance.playerCurrentHealth == PlayerController.instance.playerMaxHealth)
+            {
+                return;
+            }
+
             isMagnetActive = true;
         }
     }
@@ -61,8 +78,26 @@ public class PickupItem : MonoBehaviour
     private void Collect()
     {
         // Implement pickup effect here (e.g., increase score, add health, etc.)
-        PlayerController.instance.GetExperience(5);
-        AudioManager.instance.PlayModifiedSound(AudioManager.instance.expGet);
+        switch (type)
+        {
+            case 0:
+                // Experience
+                AudioManager.instance.PlayModifiedSound(AudioManager.instance.expGet);
+                PlayerController.instance.GetExperience(5);
+                break;
+            case 1:
+                // Health
+                AudioManager.instance.PlayModifiedSound(AudioManager.instance.healthGet);
+                PlayerController.instance.Heal(20);
+                break;
+            case 2:
+                // MoveSpeed
+                AudioManager.instance.PlayModifiedSound(AudioManager.instance.speedBuffGet);
+                PlayerController.instance.BuffSpeed(10f, 5f);
+                break;
+            default:
+                break;
+        }
         PickupItemPool.Instance.ReturnPickup(gameObject);
     }
 }

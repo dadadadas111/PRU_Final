@@ -54,8 +54,18 @@ public class PickupItemPool : MonoBehaviour
         for (int i = 0; i < exp / 5; i++)
         {
             GameObject pickup = PickupItemPool.Instance.GetPickup(transform.position);
+            pickup.GetComponent<PickupItem>().SetType(0);
             pickup.GetComponent<PickupItem>().Initialize(transform.position);
         }
+    }
+
+    public void RandomDropItem(Vector3 position, int rate)
+    {
+        if (Random.Range(0, 100) > rate) return; // Random drop rate
+        int type = Random.Range(1, 3); // Random type
+        GameObject pickup = PickupItemPool.Instance.GetPickup(position);
+        pickup.GetComponent<PickupItem>().SetType(type);
+        pickup.GetComponent<PickupItem>().Initialize(position);
     }
 
     private IEnumerator SlowDownPickup(Rigidbody2D rb)
