@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Weapon : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Weapon : MonoBehaviour
     public int maxLevel = 1;
     public List<WeaponStats> stats;
     public Sprite weaponImage;
+    public TMP_Text weaponLevelText;
 
     public void Start()
     {
@@ -21,6 +23,11 @@ public class Weapon : MonoBehaviour
         {
             weaponLevel++;
         }
+    }
+
+    public void UpdateLevel()
+    {
+        weaponLevelText.text = "Lv." + weaponLevel;
     }
 }
 

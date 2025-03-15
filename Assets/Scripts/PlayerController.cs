@@ -201,12 +201,27 @@ public class PlayerController : MonoBehaviour
     }
 
     // load data from save
-    public void LoadPlayerData(float maxHealth, float currentHealth, int exp, int level)
+    public void LoadPlayerData(float maxHealth, float currentHealth, int exp, int level, float[] position, int[] weaponLevels)
     {
         playerMaxHealth = maxHealth;
         playerCurrentHealth = currentHealth;
         experience = exp;
         currentLevel = level;
+        transform.position = new Vector3(position[0], position[1], position[2]);
+        for (int i = 0; i < weaponLevels.Length; i++)
+        {
+            activeWeapons[i].weaponLevel = weaponLevels[i];
+            if (activeWeapons[i].weaponLevel <= 0)
+            {
+                // inactivate the weapon
+                activeWeapons[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                activeWeapons[i].gameObject.SetActive(true);
+                activeWeapons[i].UpdateLevel();
+            }
+        }
         UIController.instance.UpdateHealthSlider();
         UIController.instance.UpdateExpSlider();
         UIController.instance.UpdatePlayerLevel();

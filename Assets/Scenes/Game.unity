@@ -23206,6 +23206,7 @@ MonoBehaviour:
     speed: 2
     description: Max Level
   weaponImage: {fileID: 21300000, guid: 096079e0e836bcf418becd7ddb0ad018, type: 3}
+  weaponLevelText: {fileID: 670166000}
   prefab: {fileID: 7660339397573037864, guid: 02c8e5766ca58cd49884b8d6366736b1, type: 3}
 --- !u!1 &884424033
 GameObject:
@@ -24053,6 +24054,7 @@ MonoBehaviour:
     speed: 15
     description: Max Level
   weaponImage: {fileID: 21300000, guid: 180fbeca4316c6e40a816577e0b218b7, type: 3}
+  weaponLevelText: {fileID: 1941478200}
   bulletPrefab: {fileID: 7869847489937410646, guid: b0ff38cbf7c35c14f8f4ba870a7c5fed, type: 3}
   muzzlePoint: {fileID: 1165916902}
   detectionRadius: 7
@@ -33102,6 +33104,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameTime: 0
   isGameOver: 0
+  isGameStarted: 0
+  isGameContinueFromSave: 0
 --- !u!1 &1899155399
 GameObject:
   m_ObjectHideFlags: 0

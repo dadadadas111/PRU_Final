@@ -26,6 +26,22 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         isGameOver = false;
+        var gameMode = PlayerPrefs.GetInt("gameMode", 0);
+        if (gameMode == 0) // normal mode
+        {
+            isGameStarted = false;
+        }
+        else // continue mode
+        {
+            LoadGame();
+            isGameOver = false;
+            isGameStarted = true;
+            Time.timeScale = 1;
+            if (UIController.instance != null)
+            {
+                UIController.instance.startWeaponPanel.SetActive(false);
+            }
+        }
     }
 
     void Update()
@@ -61,6 +77,12 @@ public class GameManager : MonoBehaviour
             PlayerController.instance.Heal(100);
         }
 
+        // key t to take damage
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            PlayerController.instance.TakeDamage(5);
+        }
+
         // num 3 to disable/enable weapon
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
@@ -86,15 +108,15 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // key i to save game, key o to load game
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            SaveGame();
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            LoadGame();
-        }
+        // // key i to save game, key o to load game
+        // if (Input.GetKeyDown(KeyCode.I))
+        // {
+        //     SaveGame();
+        // }
+        // if (Input.GetKeyDown(KeyCode.O))
+        // {
+        //     LoadGame();
+        // }
     }
 
     public void GameOver()
@@ -108,6 +130,14 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        PlayerPrefs.SetInt("canLoadData", 0);
+        PlayerPrefs.SetInt("gameMode", 0);
+        SceneManager.LoadScene("Game");
+    }
+
+    public void ContinueGame()
+    {
+        PlayerPrefs.SetInt("gameMode", 1);
         SceneManager.LoadScene("Game");
     }
 
@@ -163,14 +193,25 @@ public class GameManager : MonoBehaviour
         }
         // log the data first
         data.PrintSaveData();
+        if (PlayerController.instance == null)
+        {
+            return;
+        }
         PlayerController.instance.LoadPlayerData(
             data.playerMaxHealth,
             data.playerCurrentHealth,
             data.experience,
-            data.currentLevel
+            data.currentLevel,
+            data.playerPosition,
+            data.weaponLevels
         );
-        // this.instance.LoadGameManager(data);
+        LoadGameManager(data);
         isGameContinueFromSave = true;
+    }
+
+    public void LoadGameManager(SaveData data)
+    {
+        gameTime = data.gameTime;
     }
 
     IEnumerator ShowGameOverPanel()
