@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    public static EnemySpawner instance;
+
     [System.Serializable]
     public class Wave
     {
@@ -22,6 +24,18 @@ public class EnemySpawner : MonoBehaviour
     public Transform minPos;
     public Transform maxPos;
     public EnemyPool enemyPool; // Reference to EnemyPool
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(this);
+        }
+    }
 
     void Update()
     {
@@ -98,5 +112,11 @@ public class EnemySpawner : MonoBehaviour
         }
 
         return spawnPoint;
+    }
+
+    public void LoadEnemyData(int waveNumber, int loopCount)
+    {
+        this.waveNumber = waveNumber;
+        this.loopCount = loopCount;
     }
 }

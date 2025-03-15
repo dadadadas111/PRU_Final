@@ -26,7 +26,7 @@ public class MenuUIController : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("canLoadData"))
         {
-            if (PlayerPrefs.GetInt("canLoadData") == 1)
+            if (PlayerPrefs.GetInt("canLoadData") == 1 && PlayerPrefs.GetInt("currentSaveLeft") > 0)
             {
                 loadButton.SetActive(true);
             }

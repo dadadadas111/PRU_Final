@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class SaveData
 {
+    // player data and game time to save
     public float playerMaxHealth;
     public float playerCurrentHealth;
     public int experience;
@@ -13,8 +14,19 @@ public class SaveData
     public float gameTime;
     public int[] weaponLevels;
 
-    public SaveData(PlayerController player, GameManager gameManager)
+    // enemies current wave
+    public int waveNumber;
+    public int loopCount;
+
+    // enemies data to save
+    // TODO: save the enemies position and type
+    public int[] activeEnemiesIndex;
+    public float[][] activeEnemiesPosition;
+
+
+    public SaveData(PlayerController player, GameManager gameManager, EnemySpawner enemySpawner, EnemyPool enemyPool)
     {
+        // player
         playerMaxHealth = player.playerMaxHealth;
         playerCurrentHealth = player.playerCurrentHealth;
         experience = player.experience;
@@ -30,19 +42,33 @@ public class SaveData
         {
             weaponLevels[i] = weapons[i].weaponLevel;
         }
+
+        // enemy
+        waveNumber = enemySpawner.waveNumber;
+        loopCount = enemySpawner.loopCount;
+
+        // enemies active data
+        var activeEnemiesData = enemyPool.GetActiveEnemyData();
+        activeEnemiesIndex = new int[activeEnemiesData.Count];
+        activeEnemiesPosition = new float[activeEnemiesData.Count][];
+        for (int i = 0; i < activeEnemiesData.Count; i++)
+        {
+            activeEnemiesIndex[i] = activeEnemiesData[i].enemyIndex;
+            activeEnemiesPosition[i] = activeEnemiesData[i].position;
+        }
     }
 
     public void PrintSaveData()
     {
-        Debug.Log("Player Max Health: " + playerMaxHealth);
-        Debug.Log("Player Current Health: " + playerCurrentHealth);
-        Debug.Log("Experience: " + experience);
-        Debug.Log("Current Level: " + currentLevel);
-        Debug.Log("Player Position: " + playerPosition[0] + ", " + playerPosition[1] + ", " + playerPosition[2]);
-        Debug.Log("Game Time: " + gameTime);
-        for (int i = 0; i < weaponLevels.Length; i++)
-        {
-            Debug.Log("Weapon " + i + " Level: " + weaponLevels[i]);
-        }
+        // Debug.Log("Player Max Health: " + playerMaxHealth);
+        // Debug.Log("Player Current Health: " + playerCurrentHealth);
+        // Debug.Log("Experience: " + experience);
+        // Debug.Log("Current Level: " + currentLevel);
+        // Debug.Log("Player Position: " + playerPosition[0] + ", " + playerPosition[1] + ", " + playerPosition[2]);
+        // Debug.Log("Game Time: " + gameTime);
+        // for (int i = 0; i < weaponLevels.Length; i++)
+        // {
+        //     Debug.Log("Weapon " + i + " Level: " + weaponLevels[i]);
+        // }
     }
 }

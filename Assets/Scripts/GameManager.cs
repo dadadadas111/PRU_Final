@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
     public bool isGameStarted = false;
     public bool isGameContinueFromSave = false;
+    // for each game, only 3 times save is allowed
+    public int saveLimit = 3;
 
     void Awake()
     {
@@ -30,6 +32,12 @@ public class GameManager : MonoBehaviour
         if (gameMode == 0) // normal mode
         {
             isGameStarted = false;
+            if (UIController.instance != null)
+            {
+                PlayerPrefs.SetInt("currentSaveLeft", saveLimit);
+                // PlayerPrefs.SetInt("canLoadData", 0);
+                UIController.instance.saveNoticeText.text = "SAVES LEFT: " + saveLimit;
+            }
         }
         else // continue mode
         {
@@ -39,7 +47,9 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
             if (UIController.instance != null)
             {
+                var currentSaveLeft = PlayerPrefs.GetInt("currentSaveLeft", saveLimit);
                 UIController.instance.startWeaponPanel.SetActive(false);
+                UIController.instance.saveNoticeText.text = "SAVES LEFT: " + currentSaveLeft;
             }
         }
     }
@@ -138,13 +148,26 @@ public class GameManager : MonoBehaviour
     public void ContinueGame()
     {
         PlayerPrefs.SetInt("gameMode", 1);
+        var currentSaveLeft = PlayerPrefs.GetInt("currentSaveLeft", saveLimit);
+        if (currentSaveLeft <= 0)
+        {
+            PlayerPrefs.SetInt("canLoadData", 0);
+            return;
+        }
+        currentSaveLeft--;
+        PlayerPrefs.SetInt("currentSaveLeft", currentSaveLeft);
+        if (currentSaveLeft <= 0)
+        {
+            PlayerPrefs.SetInt("canLoadData", 0);
+        }
+        // ex: (You can save the game 2 more times./n Use wisely)
         SceneManager.LoadScene("Game");
     }
 
     public void Pause()
     {
-        // if is game over, do not pause
-        if (UIController.instance.gameOverPanel.activeSelf)
+        // if is game over or is leveling up, do not pause
+        if (UIController.instance.gameOverPanel.activeSelf || UIController.instance.levelUpPanel.activeSelf)
         {
             return;
         }
@@ -180,7 +203,7 @@ public class GameManager : MonoBehaviour
 
     public void SaveGame()
     {
-        SaveSystem.SaveGame(PlayerController.instance, GameManager.instance);
+        SaveSystem.SaveGame(PlayerController.instance, GameManager.instance, EnemySpawner.instance, EnemyPool.instance);
         PlayerPrefs.SetInt("canLoadData", 1);
     }
 
@@ -205,6 +228,16 @@ public class GameManager : MonoBehaviour
             data.playerPosition,
             data.weaponLevels
         );
+        if (EnemySpawner.instance == null)
+        {
+            return;
+        }
+        EnemySpawner.instance.LoadEnemyData(data.waveNumber, data.loopCount);
+        if (EnemyPool.instance == null)
+        {
+            return;
+        }
+        EnemyPool.instance.LoadEnemyData(data.activeEnemiesIndex, data.activeEnemiesPosition);
         LoadGameManager(data);
         isGameContinueFromSave = true;
     }

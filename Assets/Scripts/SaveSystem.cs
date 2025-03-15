@@ -6,13 +6,13 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
-    public static void SaveGame(PlayerController player, GameManager gameManager)
+    public static void SaveGame(PlayerController player, GameManager gameManager, EnemySpawner enemySpawner, EnemyPool enemyPool)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/savegame.dat";
         FileStream stream = new FileStream(path, FileMode.Create);
 
-        SaveData data = new SaveData(player, gameManager);
+        SaveData data = new SaveData(player, gameManager, enemySpawner, enemyPool);
 
         formatter.Serialize(stream, data);
         stream.Close();

@@ -23,6 +23,7 @@ public class UIController : MonoBehaviour
     public UpgradeButton[] upgradeButtons;
     public UpgradeButton[] startUpgradeButtons;
     public HPUpgradeButton hpUpgradeButton;
+    public TMP_Text saveNoticeText;
     [SerializeField]
     private TMP_Text timerText;
     [SerializeField]
