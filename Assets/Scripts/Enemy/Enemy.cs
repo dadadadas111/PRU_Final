@@ -24,13 +24,15 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject destroyEffect;
 
-    [SerializeField] 
+    [SerializeField]
     private GameObject targetIndicator;
 
     private Vector3 direction;
     private float pushCounter;
     private EnemyPool enemyPool;
     private int enemyIndex;
+
+    private float despawnDistance = 30f;
 
     public void Initialize(EnemyPool pool, int index)
     {
@@ -48,6 +50,14 @@ public class Enemy : MonoBehaviour
         if (currentHealth <= 0)
         {
             Die();
+        }
+        float distanceToPlayer = Vector2.Distance(transform.position, PlayerController.instance.transform.position);
+        // **Despawn if too far from player**
+        if (distanceToPlayer > despawnDistance)
+        {
+            Debug.Log("Enemy respawned near player");
+            EnemySpawner.instance.SpawnEnemy(enemyIndex);
+            ReturnToPool();
         }
     }
 
@@ -99,7 +109,7 @@ public class Enemy : MonoBehaviour
 
     void ReturnToPool()
     {
-        SetTarget(false); 
+        SetTarget(false);
         rb.velocity = Vector2.zero;
         // reset health
         currentHealth = health;

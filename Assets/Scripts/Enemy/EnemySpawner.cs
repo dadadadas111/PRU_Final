@@ -80,7 +80,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    void SpawnEnemy(int enemyIndex)
+    public void SpawnEnemy(int enemyIndex)
     {
         GameObject enemy = enemyPool.GetFromPool(enemyIndex);
         if (enemy != null)

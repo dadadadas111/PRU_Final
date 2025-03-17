@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PickupItem : MonoBehaviour
 {
-    public int type = 0; 
+    public int type = 0;
     // 0: Experience, 1: Health, 2: MoveSpeed...
     // sprite list for different types of pickups
     public Sprite[] pickupSprites;
@@ -14,6 +14,9 @@ public class PickupItem : MonoBehaviour
     private bool isMagnetActive = false;
     private float magnetRange = 3.5f; // How close before the magnet activates
     private float magnetSpeed = 10f; // Speed when attracted
+    private float magnetAcceleration = 5f; // How quickly speed increases
+    private float currentMagnetSpeed; // Dynamic speed variable
+    private float despawnDistance = 30f;
 
     public void Initialize(Vector2 dropPosition)
     {
@@ -21,6 +24,7 @@ public class PickupItem : MonoBehaviour
         targetPosition = dropPosition + Random.insideUnitCircle * 1.5f;
         isMoving = true;
         isMagnetActive = false;
+        currentMagnetSpeed = magnetSpeed;
     }
 
     public void SetType(int type)
@@ -39,7 +43,10 @@ public class PickupItem : MonoBehaviour
         if (isMagnetActive)
         {
             // Move toward the player with increasing speed
-            transform.position = Vector2.MoveTowards(transform.position, player.position, magnetSpeed * Time.deltaTime);
+            // transform.position = Vector2.MoveTowards(transform.position, player.position, magnetSpeed * Time.deltaTime);
+            // Gradually increase speed when moving toward player
+            currentMagnetSpeed += magnetAcceleration * Time.deltaTime;
+            transform.position = Vector2.MoveTowards(transform.position, player.position, currentMagnetSpeed * Time.deltaTime);
         }
         else if (isMoving)
         {
@@ -64,6 +71,14 @@ public class PickupItem : MonoBehaviour
             }
 
             isMagnetActive = true;
+        }
+
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        // **Despawn if too far from player**
+        if (distanceToPlayer > despawnDistance)
+        {
+            Debug.Log("Item Despawned");
+            PickupItemPool.Instance.ReturnPickup(gameObject);
         }
     }
 
