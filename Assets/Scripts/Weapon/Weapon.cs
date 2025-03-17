@@ -13,7 +13,8 @@ public class Weapon : MonoBehaviour
 
     public void Start()
     {
-        weaponLevel = 1;
+        if (weaponLevel < 1)
+            weaponLevel = 1;
         maxLevel = stats.Count;
     }
 

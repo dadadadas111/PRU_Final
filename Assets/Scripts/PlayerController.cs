@@ -211,6 +211,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < weaponLevels.Length; i++)
         {
             activeWeapons[i].weaponLevel = weaponLevels[i];
+            Debug.Log("Weapon " + i + " level: " + weaponLevels[i]);
             if (activeWeapons[i].weaponLevel <= 0)
             {
                 // inactivate the weapon
